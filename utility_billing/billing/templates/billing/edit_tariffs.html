@@ -1,0 +1,47 @@
+{% extends 'billing/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-warning">
+            <h3><i class="bi bi-currency-exchange"></i> Редактирование тарифов</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        {{ form.electricity.label_tag }}
+                        <div class="input-group">
+                            {{ form.electricity }}
+                            <span class="input-group-text">₽/кВт·ч</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.gas.label_tag }}
+                        <div class="input-group">
+                            {{ form.gas }}
+                            <span class="input-group-text">₽/м³</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.water.label_tag }}
+                        <div class="input-group">
+                            {{ form.water }}
+                            <span class="input-group-text">₽/м³</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Сохранить изменения
+                </button>
+                <a href="{% url 'utility_form' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Назад
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

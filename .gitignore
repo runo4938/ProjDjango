@@ -1,0 +1,11 @@
+.vscode
+master_finder
+masters_project
+shop_project
+shop_qwen
+utility_billingDed
+utility_calculator
+venv
+**management*
+__pycache__
+*migrations*

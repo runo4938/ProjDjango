@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tariffs>
+    <electricity>4.35</electricity>
+    <gas>7.86</gas>
+    <water>74.83</water>
+</tariffs>
