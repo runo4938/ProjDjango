@@ -22,14 +22,14 @@
                                         <label for="id_electricity_reading" class="form-label fs-4">Текущие
                                             показания</label>
                                         {{ form.electricity_reading }}
-                                        <span class="badge bg-secondary">Тариф: {{ form.tariffs.electricity }} ₽/кВт·ч</span>
-                                        <span> №12453822</span></span>
+                                        <h6 class="bi text-danger">Тариф: {{ form.tariffs.electricity }} ₽/кВт·ч</h6>
+                                        <span> № 12453822</span></span>
                                         <div class="invalid-feedback">Пожалуйста, введите показания</div>
+                                        <h6 class="bi bi-wifi text-capitalize">  Интернет: {{ form.tariffs.internet }} ₽</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4 mb-3">
                             <div class="reading-section mb-4">
                                 <h4 class="text-center mb-4"><i class="bi bi-fire text-danger"></i> Газ</h4>
@@ -37,9 +37,10 @@
                                     <div class="col-md-10 mb-3">
                                         <label for="id_gas_reading" class="form-label fs-4">Текущие показания</label>
                                         {{ form.gas_reading }}
-                                        <span class="badge bg-secondary">Тариф: {{ form.tariffs.gas }} ₽/м³ (газ)</span>
-                                        <span> №126014010974</span>
+                                        <h6 class="bi text-danger">Тариф: {{ form.tariffs.gas }} ₽/м³ (газ)</h6>
+                                        <span> № 126014010974</span>
                                         <div class="invalid-feedback">Пожалуйста, введите показания</div>
+                                        <h6 class="bi bi-trash-fill text-capitalize">  Вывоз мусора: {{ form.tariffs.musor }} ₽</h6>
                                     </div>
                                 </div>
                             </div>
@@ -52,15 +53,14 @@
                                     <div class="col-md-10 mb-3">
                                         <label for="id_water_reading" class="form-label fs-4">Текущие показания </label>
                                         {{ form.water_reading }}
-                                        <span class="badge bg-secondary">Тариф: {{ form.tariffs.water }} ₽/м³ (вода)</span>
-                                        <span> №141147000000186</span>
+                                        <h6 class="bi text-danger">Тариф: {{ form.tariffs.water }} ₽/м³ (вода)</h6>
+                                        <span> № 141147000000186</span>
                                         <div class="invalid-feedback">Пожалуйста, введите показания</div>
-                                    </div>
+                                    </div>  
                                 </div>
-                            </div>
+                            </div>   
                         </div>
                     </div>
- 
                     <div class="text-end mb-3">
                         <a href="{% url 'edit_tariffs' %}" class="btn btn-warning">
                             <i class="bi bi-pencil-square"></i> Изменить тарифы
