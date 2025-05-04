@@ -3,4 +3,6 @@
     <electricity>4.35</electricity>
     <gas>7.86</gas>
     <water>74.83</water>
+    <internet>1038.0</internet>
+    <musor>753.0</musor>
 </tariffs>

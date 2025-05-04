@@ -24,11 +24,30 @@ def utility_form(request):
     # Передаем текущую дату в шаблон
     current_date = now().date()  # Текущая дата без времени
     tariffs = form.tariffs
+
+    # Получаем фиксированные платежи
+    from xml.etree import ElementTree as ET
+    try:
+        tree = ET.parse('tariffs.xml')
+        internet_price = float(tree.find('internet').text)
+        musor_price = float(tree.find('musor').text)
+    except (FileNotFoundError, AttributeError):
+        internet_price = 500.00
+        musor_price = 300.00
+
+
+
     return render(request, 'billing/form.html', {
         'form': form,
         'records': records,
         'current_date': current_date,  # Передаем текущую дату
         'tariffs':tariffs,
+        
+        'internet_price': internet_price,
+        'musor_price': musor_price,
+        'total_fixed_costs': internet_price + musor_price
+
+
     })
 
 def edit_tariffs(request):

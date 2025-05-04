@@ -20,7 +20,9 @@ class UtilityForm(forms.ModelForm):
             return {
                 'electricity': float(root.find('electricity').text),
                 'gas': float(root.find('gas').text),
-                'water': float(root.find('water').text)
+                'water': float(root.find('water').text),
+                'internet': float(root.find('internet').text),
+                'musor': float(root.find('musor').text)
             }
         except (FileNotFoundError, AttributeError, ValueError) as e:
             # Значения по умолчанию при ошибке
@@ -78,6 +80,8 @@ class UtilityForm(forms.ModelForm):
             'electricity': float(root.find('electricity').text),
             'gas': float(root.find('gas').text),
             'water': float(root.find('water').text),
+            'internet': float(root.find('internet').text),
+            'musor': float(root.find('musor').text)            
         }
         
         # Получение последней записи для расчета разницы
@@ -114,6 +118,16 @@ class TariffEditForm(forms.Form):
         label="Вода (₽/м³)",
         min_value=0,
         widget=forms.NumberInput(attrs={'step': '0.01'}))
+    
+    internet = forms.FloatField(
+        label="Интернет (₽)",
+        min_value=0,
+        widget=forms.NumberInput(attrs={'step': '1.0'}))
+    
+    musor = forms.FloatField(
+        label="Мусор (₽)",
+        min_value=0,
+        widget=forms.NumberInput(attrs={'step': '0.01'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -121,6 +135,8 @@ class TariffEditForm(forms.Form):
         self.fields['electricity'].initial = self._get_current_rate('electricity')
         self.fields['gas'].initial = self._get_current_rate('gas')
         self.fields['water'].initial = self._get_current_rate('water')
+        self.fields['internet'].initial = self._get_current_rate('internet')
+        self.fields['musor'].initial = self._get_current_rate('musor')
 
     def _get_current_rate(self, utility_type):
         """Получает текущий тариф из XML"""
@@ -135,6 +151,8 @@ class TariffEditForm(forms.Form):
         root.find('electricity').text = str(self.cleaned_data['electricity'])
         root.find('gas').text = str(self.cleaned_data['gas'])
         root.find('water').text = str(self.cleaned_data['water'])
+        root.find('internet').text = str(self.cleaned_data['internet'])
+        root.find('musor').text = str(self.cleaned_data['musor'])
         
         tree.write(
             os.path.join(settings.BASE_DIR, 'tariffs.xml'),
