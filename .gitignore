@@ -3,8 +3,8 @@ master_finder
 masters_project
 shop_project
 shop_qwen
+utility_billing
 utility_billingDed
-!/utility_billingDed/db.sqlite3
 utility_calculator
 .venv
 **management*
@@ -13,5 +13,4 @@ __pycache__
 *myshop-main.zip
 myshop-main.zip
 utility_calculator_copy
-utility_payments
-!/utility_payments/db.sqlite3
+utility_payments/static
