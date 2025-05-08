@@ -14,7 +14,7 @@
                         <div class="col-md-4 mb-2">
                             {% comment %} <label for="payer" class="form-label">Выберите плательщика</label> {% endcomment %}
                             <label for="payer" class="form-label">
-                                <h5 class="bi text-danger">Выберите плательщика</h5>
+                                <h4 class="bi text-danger">Выберите плательщика</h4>
                             </label>
                             <form method="post">
                                 {% csrf_token %}
@@ -161,7 +161,9 @@
             <!-- История платежей -->
             <div class="card shadow mt-5">
                 <div class="card-header bg-success text-white">
-                    <h3 class="mt-2">История платежей {{ paments.payer }}</h3>
+                    {% for payer in payers %}
+                        {% if payer.id == selected_payer_id %}<h3 class="mt-2">История платежей {{ payer.name }}</h3>{% endif %}
+                    {% endfor %}
                 </div>
                 {% if payments %}
                     <div class="card-body">

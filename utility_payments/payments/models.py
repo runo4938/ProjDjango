@@ -78,7 +78,7 @@ class Tariff(models.Model):
     electricity = models.DecimalField("Тариф за электричество", max_digits=10, decimal_places=2, default=5.2)
     gas = models.DecimalField("Тариф за газ", max_digits=10, decimal_places=2, default=6.1)
     water = models.DecimalField("Тариф за воду", max_digits=10, decimal_places=2, default=4.8)
-
+    
     def __str__(self):
         return "Текущие тарифы",self.water,self.electricity
 
