@@ -31,23 +31,6 @@
                                         </option>
                                     {% endfor %}
                                 </select>
-                                {% comment %} </form>
-                                </div> {% endcomment %}
-                                <!-- Форма ввода -->
-                                {% comment %} <form method="post">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="payer" class="form-label">
-                                    <h5 class="bi text-danger">Выберите плательщика</h5>
-                                </label>
-                                <select name="payer" id="payer" class="form-select"required>
-                                    {% for payer in payers %}
-                                        <option value="{{ payer.id }}" {% if selected_payer_id|stringformat:"s" == payer.id|stringformat:"s" %}selected{% endif %}>
-                                            {{ payer.name }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                                </div> {% endcomment %}
                                 <div class="row">
                                     <div class="col-md-4 mb-4 mt-3">
                                         <div class="card h-100">
