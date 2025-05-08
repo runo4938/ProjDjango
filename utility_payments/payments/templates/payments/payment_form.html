@@ -166,7 +166,7 @@
                 {% if payments %}
                     <div class="card-body">
                         <table class="table table-striped">
-                            <thead>
+                            <thead class="table-dark">
                                 <tr>
                                     <th>Дата</th>
                                     <th>Эл. тек</th>
@@ -188,17 +188,17 @@
                                     <tr>
                                         <td>{{ p.date|date:"d.m.Y" }}</td>
                                         <td>{{ p.electricity_curr }}</td>
-                                        <td>{{ p.electricity_diff }}кВт·ч</td>
+                                        <td class="{{ p.electricity_diff|yesno:'table-success,table-light' }}">{{ p.electricity_diff }}кВт·ч</td>
                                         <td>{{ p.electricity_cost|floatformat:2 }}₽</td>
                                         <td>{{ p.gas_curr }}</td>
-                                        <td>{{ p.gas_diff }}м³</td>
+                                        <td class="{{ p.gas_diff|yesno:'table-success,table-light' }}">{{ p.gas_diff }}м³</td>
                                         <td>{{ p.gas_cost|floatformat:2 }}₽</td>
                                         <td>{{ p.water_curr }}</td>
-                                        <td>{{ p.water_diff }}м³</td>
+                                        <td class="{{ p.water_diff|yesno:'table-success,table-light' }}">{{ p.water_diff }}м³</td>
                                         <td>{{ p.water_cost|floatformat:2 }}₽</td>
                                         <td>{{ p.internet_cost|floatformat:2 }}₽</td>
                                         <td>{{ p.trash_cost|floatformat:2 }}₽</td>
-                                        <td>
+                                        <td class="table-success">
                                             <strong>{{ p.total_cost|floatformat:2 }}₽</strong>
                                         </td>
                                     </tr>
