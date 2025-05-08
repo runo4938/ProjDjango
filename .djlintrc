@@ -1,0 +1,15 @@
+{
+  "customTmplTags": ["templatetag", "spaceless"],
+  "exclude": "node_modules,env,.venv,__pycache__,migrations",
+  "format": true,
+  "ignoreDirs": [],
+  "ignoreFiles": [],
+  "ignoreRules": [],
+  "indent": 4,
+  "maxlen": 120,
+  "profile": "django",
+  "reformatComments": false,
+  "safe": false,
+  "useGitIgnore": true
+  
+}
