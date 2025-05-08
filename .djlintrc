@@ -4,12 +4,12 @@
   "format": true,
   "ignoreDirs": [],
   "ignoreFiles": [],
-  "ignoreRules": [],
+  "ignoreRules": ["T003"],
   "indent": 4,
   "maxlen": 120,
   "profile": "django",
   "reformatComments": false,
   "safe": false,
-  "useGitIgnore": true
-  
+  "useGitIgnore": true,
+  "lint": true
 }
