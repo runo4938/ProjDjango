@@ -6,7 +6,7 @@ shop_qwen
 utility_billingDed
 !/utility_billingDed/db.sqlite3
 utility_calculator
-venv
+.venv
 **management*
 __pycache__
 *migrations*
