@@ -86,5 +86,4 @@ def edit_tariffs(request):
 def delete_record(request, pk):
     record = get_object_or_404(Payment, pk=pk)
     record.delete()
-    print("asdasdasd")
     return redirect('payment_form')  # Возврат на страницу с формой
