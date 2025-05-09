@@ -86,4 +86,5 @@ def edit_tariffs(request):
 def delete_record(request, pk):
     record = get_object_or_404(Payment, pk=pk)
     record.delete()
-    return redirect('payment_form')  # Возврат на страницу с формой
+    selected_payer = request.GET.get('payer', '')
+    return redirect(f"{reverse('payment_form')}?payer={selected_payer}")  # Возврат на страницу с формой
