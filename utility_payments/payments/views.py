@@ -1,6 +1,9 @@
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.urls import reverse
 from .models import Payment, Payer, Tariff
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.timezone import now
 
 def payment_view(request):
     payers = Payer.objects.all()
@@ -19,7 +22,7 @@ def payment_view(request):
             selected_payer_id = None
     
     # Фильтруем платежи по выбранному плательщику
-    payments = Payment.objects.all().order_by('-date')
+    payments = Payment.objects.all().order_by('date')
     if selected_payer_id:
         payments = payments.filter(payer_id=selected_payer_id)
 
@@ -32,6 +35,7 @@ def payment_view(request):
         water_curr = int(request.POST.get('water_curr', 0))
         internet_cost = float(request.POST.get('internet_cost', 0))
         trash_cost = float(request.POST.get('trash_cost', 0))
+    
 
         Payment.objects.create(
             payer=payer,
@@ -46,13 +50,18 @@ def payment_view(request):
         url = reverse('payment_form') + f'?payer={payer_id}'
         return HttpResponseRedirect(url)
 
+        
+    current_date = now().date()  # Текущая дата без времени
+    print(current_date)
     context = {
         'payers': payers,
         'selected_payer_id': selected_payer_id,  # важно: передаем в шаблон
         'payments': payments,
         'tariffs': tariffs,
+        'current_date':current_date,
     }
-    return render(request, 'payments/payment_form.html', context)
+    return render(request, 'payments/payment_form.html', context,)
+                                                          
 
 from .forms import TariffForm
 
@@ -72,3 +81,10 @@ def edit_tariffs(request):
         'form': form,
         'tariff': tariff
     })
+
+@require_POST
+def delete_record(request, pk):
+    record = get_object_or_404(Payment, pk=pk)
+    record.delete()
+    print("asdasdasd")
+    return redirect('payment_form')  # Возврат на страницу с формой

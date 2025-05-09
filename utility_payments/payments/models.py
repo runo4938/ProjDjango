@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Payer(models.Model):
     name = models.CharField("Имя плательщика", max_length=100)
@@ -19,6 +20,10 @@ class Payment(models.Model):
     ELECTRICITY_TARIFF = 5.2
     GAS_TARIFF = 6.1
     WATER_TARIFF = 4.8
+
+    def get_delete_url(self):
+        print("models print")
+        return reverse('delete_record', kwargs={'pk': self.pk})
 
     @property
     def previous_payment(self):

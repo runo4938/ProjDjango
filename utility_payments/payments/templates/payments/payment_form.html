@@ -182,6 +182,18 @@
                                         <td class="table-success">
                                             <strong>{{ p.total_cost|floatformat:2 }}₽</strong>
                                         </td>
+                                        {% if p.date|date:"d.m.Y" == current_date|date:"d.m.Y" %}
+                                            <td class="text-nowrap">
+                                                <form action="{{ p.get_delete_url }}" method="post" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit"
+                                                            class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">
+                                                        <i class="bi bi-trash"></i> Удалить
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        {% endif %}
                                     </tr>
                                 {% endfor %}
                             </tbody>
