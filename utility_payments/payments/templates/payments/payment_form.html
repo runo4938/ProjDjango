@@ -26,9 +26,7 @@
                                     <option value="">-- Выберите плательщика --</option>
                                     {% for payer in payers %}
                                         <option value="{{ payer.id }}"
-                                                {% if selected_payer_id == payer.id %}selected{% endif %}>
-                                            {{ payer.name }}
-                                        </option>
+                                                {% if selected_payer_id == payer.id %}selected{% endif %}>{{ payer.name }}</option>
                                     {% endfor %}
                                 </select>
                                 <div class="row">

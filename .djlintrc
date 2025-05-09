@@ -4,7 +4,7 @@
   "format": true,
   "ignoreDirs": [],
   "ignoreFiles": [],
-  "ignoreRules": ["T003"],
+  "ignoreRules": ["T003","H025","H030"],
   "indent": 4,
   "maxlen": 120,
   "profile": "django",
