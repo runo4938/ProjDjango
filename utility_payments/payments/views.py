@@ -52,10 +52,10 @@ def payment_view(request):
 
         
     current_date = now().date()  # Текущая дата без времени
-    print(current_date)
+
     context = {
         'payers': payers,
-        'selected_payer_id': selected_payer_id,  # важно: передаем в шаблон
+        'selected_payer_id': int(selected_payer_id) if selected_payer_id else None,  # важно: передаем в шаблон
         'payments': payments,
         'tariffs': tariffs,
         'current_date':current_date,
@@ -86,5 +86,5 @@ def edit_tariffs(request):
 def delete_record(request, pk):
     record = get_object_or_404(Payment, pk=pk)
     record.delete()
-    selected_payer = request.GET.get('payer', '')
-    return redirect(f"{reverse('payment_form')}?payer={selected_payer}")  # Возврат на страницу с формой
+    selected_payer = request.POST.get('payer', '')  # Получаем из POST
+    return redirect(f"{reverse('payment_form')}?payer={selected_payer}")
