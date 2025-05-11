@@ -11,18 +11,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <label for="payer" class="form-label">
-                                <h4 class="bi text-danger">Выберите плательщика</h4>
-                            </label>
                             <form method="post">
                                 {% csrf_token %}
-                                <select name="payer" id="payer" class="form-select"  required>
-                                    <option value="">-- Выберите плательщика --</option>
-                                    {% for payer in payers %}
-                                        <option value="{{ payer.id }}"
-                                                {% if selected_payer_id == payer.id %}selected{% endif %}>{{ payer.name }}</option>
-                                    {% endfor %}
-                                </select>
                                 <div class="row">
                                     <div class="col-md-4 mb-4 mt-3">
                                         <div class="card h-100">
@@ -66,6 +56,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <label for="payer" class="form-label">
+                                    <h4 class="bi text-danger">Выберите плательщика</h4>
+                                </label>
+                                <div class="mb-3">
+                                    <select name="payer" id="payer" class="form-select"  required>
+                                        <option value="">-- Выберите плательщика --</option>
+                                        {% for payer in payers %}
+                                            <option value="{{ payer.id }}"
+                                                    {% if selected_payer_id == payer.id %}selected{% endif %}>{{ payer.name }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-2">
