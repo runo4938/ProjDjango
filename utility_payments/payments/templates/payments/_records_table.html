@@ -1,0 +1,51 @@
+<table class="table" id="records-table">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Дата</th>
+                <th>Эл. тек</th>
+                <th>Эл. разница</th>
+                <th>Стоимость эл.</th>
+                <th>Газ тек</th>
+                <th>Газ разница</th>
+                <th>Стоимость газа</th>
+                <th>Вода тек</th>
+                <th>Вода разница</th>
+                <th>Стоимость воды</th>
+                <th>Интернет</th>
+                <th>Мусор</th>
+                <th>Итого</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if payments %}
+                {% for p in payments %}
+                    <tr>
+                        <td>{{ p.date|date:"d.m.Y" }}</td>
+                        <td>{{ p.electricity_curr }}</td>
+                        <td class="{{ p.electricity_diff|yesno:'table-success,table-light' }}">{{ p.electricity_diff }}кВт·ч</td>
+                        <td>{{ p.electricity_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.gas_curr }}</td>
+                        <td class="{{ p.gas_diff|yesno:'table-success,table-light' }}">{{ p.gas_diff }}м³</td>
+                        <td>{{ p.gas_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.water_curr }}</td>
+                        <td class="{{ p.water_diff|yesno:'table-success,table-light' }}">{{ p.water_diff }}м³</td>
+                        <td>{{ p.water_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.internet_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.trash_cost|floatformat:2 }}₽</td>
+                        <td class="table-success">{{ p.total_cost|floatformat:2 }}₽</td>
+                        <td>
+                            {% if p.date|date:"d.m.Y" == current_date|date:"d.m.Y" %}
+                                <button class="btn btn-danger btn-sm delete-btn" data-id="{{ p.id }}">Удалить</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="14">Нет записей для выбранного плательщика.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>

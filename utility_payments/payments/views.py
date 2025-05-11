@@ -88,3 +88,42 @@ def delete_record(request, pk):
     record.delete()
     selected_payer = request.POST.get('payer', '')  # Получаем из POST
     return redirect(f"{reverse('payment_form')}?payer={selected_payer}")
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Payment, Payer
+from django.utils.timezone import now
+
+def filter_records(request):
+    payer_id = request.GET.get('payer')
+    payments = Payment.objects.all().order_by('date')
+    if payer_id:
+        payments = payments.filter(payer_id=payer_id)
+    context = {
+        'payments': payments,
+        'current_date': now().date(),
+    }
+    html = render(request, 'payments/_records_table.html', context).content.decode('utf-8')
+    return JsonResponse({'table_html': html})
+
+
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from .models import Payment
+
+@require_POST
+def delete_record_ajax(request):
+    record_id = request.POST.get('record_id')
+    payer_id = request.POST.get('payer')
+    Payment.objects.filter(id=record_id).delete()
+    # После удаления возвращаем обновлённую таблицу
+    from django.utils.timezone import now
+    payments = Payment.objects.all().order_by('date')
+    if payer_id:
+        payments = payments.filter(payer_id=payer_id)
+    context = {
+        'payments': payments,
+        'current_date': now().date(),
+    }
+    html = render(request, 'payments/_records_table.html', context).content.decode('utf-8')
+    return JsonResponse({'table_html': html})

@@ -11,7 +11,6 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            {% comment %} <label for="payer" class="form-label">Выберите плательщика</label> {% endcomment %}
                             <label for="payer" class="form-label">
                                 <h4 class="bi text-danger">Выберите плательщика</h4>
                             </label>
@@ -143,7 +142,7 @@
                         {% if payer.id == selected_payer_id %}<h3 class="mt-2">История платежей {{ payer.name }}</h3>{% endif %}
                     {% endfor %}
                 </div>
-                {% if payments %}
+                {% comment %} {% if payments %}
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead class="table-dark">
@@ -185,9 +184,7 @@
                                             <td class="text-nowrap">
                                                 <form action="{{ p.get_delete_url }}" method="post" class="d-inline">
                                                     {% csrf_token %}
-                                                    <button type="submit"
-                                                            class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">
                                                         <i class="bi bi-trash"></i> Удалить
                                                     </button>
                                                 </form>
@@ -199,9 +196,55 @@
                         </table>
                     {% else %}
                         <p>Нет записей для выбранного плательщика.</p>
-                    {% endif %}
-                </div>
+                {% endif %} {% endcomment %}
             </div>
+            <div id="records-container">{% include "payments/_records_table.html" %}</div>
         </div>
     </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function() {
+    // Обновление таблицы при смене плательщика
+    $("#payer").off("change").on("change", function() {
+        const payerId = $(this).val();
+        const scrollPos = $(window).scrollTop();  // сохраняем позицию
+        $.ajax({
+            url: "{% url 'filter_records' %}",
+            type: "GET",
+            data: { payer: payerId },
+            success: function(data) {
+                $("#records-container").html(data.table_html);
+            }
+        });
+    });
+
+    // Удаление записи через AJAX
+    $("#records-container").on("click", ".delete-btn", function() {
+        if (!confirm("Удалить запись?")) return;
+        const recordId = $(this).data("id");
+        const payerId = $("#payer").val();
+        $.ajax({
+            url: "{% url 'delete_record_ajax' %}",
+            type: "POST",
+            data: {
+                record_id: recordId,
+                payer: payerId,
+                csrfmiddlewaretoken: "{{ csrf_token }}"
+            },
+            success: function(data) {
+                $("#records-container").html(data.table_html);
+                $(window).scrollTop(scrollPos);  // восстанавливаем позицию
+            }
+        });
+    });
+
+    if ($("#records-container").is(":empty")) {
+        $("#payer").trigger("change");
+         $(window).scrollTop(scrollPos);  // восстанавливаем позицию
+    }
+    // Инициализация при загрузке страницы
+    //$("#payer").trigger("change");
+});
+</script>
 {% endblock content %}
