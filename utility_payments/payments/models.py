@@ -34,21 +34,21 @@ class Payment(models.Model):
         prev = self.previous_payment
         if prev:
             return self.electricity_curr - prev.electricity_curr
-        return self.electricity_curr  # Если нет предыдущих данных
+        return 0 # Если нет предыдущих данных
 
     @property
     def gas_diff(self):
         prev = self.previous_payment
         if prev:
             return self.gas_curr - prev.gas_curr
-        return self.gas_curr
+        return 0
 
     @property
     def water_diff(self):
         prev = self.previous_payment
         if prev:
             return self.water_curr - prev.water_curr
-        return self.water_curr
+        return 0
 
     @property
     def total_cost(self):
