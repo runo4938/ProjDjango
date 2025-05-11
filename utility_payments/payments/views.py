@@ -4,6 +4,7 @@ from .models import Payment, Payer, Tariff
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.timezone import now
+from django.http import JsonResponse
 
 def payment_view(request):
     payers = Payer.objects.all()
@@ -82,17 +83,6 @@ def edit_tariffs(request):
         'tariff': tariff
     })
 
-# @require_POST
-# def delete_record(request, pk):
-#     record = get_object_or_404(Payment, pk=pk)
-#     record.delete()
-#     selected_payer = request.POST.get('payer', '')  # Получаем из POST
-#     return redirect(f"{reverse('payment_form')}?payer={selected_payer}")
-
-from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Payment, Payer
-from django.utils.timezone import now
 
 def filter_records(request):
     payer_id = request.GET.get('payer')
