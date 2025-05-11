@@ -82,12 +82,12 @@ def edit_tariffs(request):
         'tariff': tariff
     })
 
-@require_POST
-def delete_record(request, pk):
-    record = get_object_or_404(Payment, pk=pk)
-    record.delete()
-    selected_payer = request.POST.get('payer', '')  # Получаем из POST
-    return redirect(f"{reverse('payment_form')}?payer={selected_payer}")
+# @require_POST
+# def delete_record(request, pk):
+#     record = get_object_or_404(Payment, pk=pk)
+#     record.delete()
+#     selected_payer = request.POST.get('payer', '')  # Получаем из POST
+#     return redirect(f"{reverse('payment_form')}?payer={selected_payer}")
 
 from django.shortcuts import render
 from django.http import JsonResponse
