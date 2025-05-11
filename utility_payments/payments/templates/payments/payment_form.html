@@ -16,11 +16,7 @@
                             </label>
                             <form method="post">
                                 {% csrf_token %}
-                                <select name="payer"
-                                        id="payer"
-                                        class="form-select"
-                                        onchange="this.form.submit()"
-                                        required>
+                                <select name="payer" id="payer" class="form-select"  required>
                                     <option value="">-- Выберите плательщика --</option>
                                     {% for payer in payers %}
                                         <option value="{{ payer.id }}"
