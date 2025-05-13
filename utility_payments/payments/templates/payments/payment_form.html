@@ -136,67 +136,12 @@
             <!-- История платежей -->
             <div class="card shadow mt-5">
                 <div class="card-header bg-success text-white">
-                    {% for payer in payers %}
-                        {% if payer.id == selected_payer_id %}<h3 class="mt-2">История платежей {{ payer.name }}</h3>{% endif %}
-                    {% endfor %}
+                    <h3>История платежей</h3>
                 </div>
-                {% comment %} {% if payments %}
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Дата</th>
-                                    <th>Эл. тек</th>
-                                    <th>Эл. разница</th>
-                                    <th>Стоимость эл.</th>
-                                    <th>Газ тек</th>
-                                    <th>Газ разница</th>
-                                    <th>Стоимость газа</th>
-                                    <th>Вода тек</th>
-                                    <th>Вода разница</th>
-                                    <th>Стоимость воды</th>
-                                    <th>Интернет</th>
-                                    <th>Мусор</th>
-                                    <th>Итого</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for p in payments %}
-                                    <tr>
-                                        <td>{{ p.date|date:"d.m.Y" }}</td>
-                                        <td>{{ p.electricity_curr }}</td>
-                                        <td class="{{ p.electricity_diff|yesno:'table-success,table-light' }}">{{ p.electricity_diff }}кВт·ч</td>
-                                        <td>{{ p.electricity_cost|floatformat:2 }}₽</td>
-                                        <td>{{ p.gas_curr }}</td>
-                                        <td class="{{ p.gas_diff|yesno:'table-success,table-light' }}">{{ p.gas_diff }}м³</td>
-                                        <td>{{ p.gas_cost|floatformat:2 }}₽</td>
-                                        <td>{{ p.water_curr }}</td>
-                                        <td class="{{ p.water_diff|yesno:'table-success,table-light' }}">{{ p.water_diff }}м³</td>
-                                        <td>{{ p.water_cost|floatformat:2 }}₽</td>
-                                        <td>{{ p.internet_cost|floatformat:2 }}₽</td>
-                                        <td>{{ p.trash_cost|floatformat:2 }}₽</td>
-                                        <td class="table-success">
-                                            <strong>{{ p.total_cost|floatformat:2 }}₽</strong>
-                                        </td>
-                                        {% if p.date|date:"d.m.Y" == current_date|date:"d.m.Y" %}
-                                            <td class="text-nowrap">
-                                                <form action="{{ p.get_delete_url }}" method="post" class="d-inline">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">
-                                                        <i class="bi bi-trash"></i> Удалить
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                        <p>Нет записей для выбранного плательщика.</p>
-                {% endif %} {% endcomment %}
+                <div class="card-body">
+                    <div id="records-container">{% include "payments/_records_table.html" %}</div>
+                </div>
             </div>
-            <div id="records-container">{% include "payments/_records_table.html" %}</div>
         </div>
     </div>
 </div>
