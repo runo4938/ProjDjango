@@ -13,6 +13,7 @@
                         <div class="col-lg-12 mb-2">
                             <form method="post">
                                 {% csrf_token %}
+                                <input type="hidden" name="payer" value="{{ selected_payer_id }}">
                                 <div class="row">
                                     <div class="col-md-4 mb-4 mt-3">
                                         <div class="card h-100">
@@ -61,6 +62,7 @@
                                     <h4 class="bi text-danger">Выберите плательщика</h4>
                                 </label>
                                 <div class="mb-3">
+                                    <input type="hidden" name="payer" value="{{ selected_payer_id }}">
                                     <select name="payer" id="payer" class="form-select"  required>
                                         <option value="">-- Выберите плательщика --</option>
                                         {% for payer in payers %}
@@ -128,6 +130,10 @@
                                     <i class="bi bi-calculator me-2"></i>Рассчитать и сохранить
                                 </button>
                                 <a href="{% url 'edit_tariffs' %}" class="btn btn-warning btn-lg">Редактировать тарифы</a>
+                                <!-- В разделе с кнопками -->
+                                <a href="{% url 'utility_chart' %}" class="btn btn-info btn-lg">
+                                    <i class="bi bi-bar-chart-line me-2"></i>Показать диаграмму
+                                </a>
                             </form>
                         </div>
                     </div>

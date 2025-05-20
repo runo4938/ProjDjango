@@ -1,0 +1,67 @@
+{% extends "payments/base.html" %}
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Диаграмма потребления по плательщикам</h1>
+        <a href="{% url 'payment_form' %}?payer={{ request.session.selected_payer_id }}"
+           class="btn btn-primary mb-4">
+            <i class="bi bi-arrow-left"></i> Назад к платежам
+        </a>
+        {% for dataset in datasets %}
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <h3>{{ dataset.payer }}</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="chart_{{ forloop.counter }}"></canvas>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    {% for dataset in datasets %}
+    const ctx_{{ forloop.counter }} = document.getElementById('chart_{{ forloop.counter }}').getContext('2d');
+    new Chart(ctx_{{ forloop.counter }}, {
+        type: 'line',
+        data: {
+            labels: {{ dataset.months|safe }},
+            datasets: [
+                {
+                    label: 'Электричество (кВт·ч)',
+                    data: {{ dataset.electricity|safe }},
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Газ (м³)',
+                    data: {{ dataset.gas|safe }},
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    tension: 0.1
+                },
+                {
+                    label: 'Вода (м³)',
+                    data: {{ dataset.water|safe }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Потребление' }
+                },
+                x: {
+                    title: { display: true, text: 'Месяц' }
+                }
+            }
+        }
+    });
+    {% endfor %}
+    </script>
+{% endblock %}

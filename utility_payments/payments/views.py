@@ -5,8 +5,26 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.timezone import now
 from django.http import JsonResponse
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 
 def payment_view(request):
+    # Получаем payer_id из сессии или запроса
+    payer_id = request.POST.get('payer') or request.GET.get('payer') or request.session.get('selected_payer_id')
+    
+    if payer_id:
+        try:
+            payer_id = int(payer_id)
+           
+            # Сохраняем в сессию
+            request.session['selected_payer_id'] = payer_id
+        except (TypeError, ValueError):
+            payer_id = None
+    else:
+        # Если нет в запросе и сессии - сбрасываем
+        request.session.pop('selected_payer_id', None)
+    # Остальной код остается без изменений...
+
     payers = Payer.objects.all()
     
     tariffs = Tariff.objects.first()
@@ -20,7 +38,7 @@ def payment_view(request):
         try:
             selected_payer_id = int(selected_payer_id)
         except (TypeError, ValueError):
-            selected_payer_id = None
+            selected_payer_id = None 
     
     # Фильтруем платежи по выбранному плательщику
     payments = Payment.objects.all().order_by('date')
@@ -117,3 +135,67 @@ def delete_record_ajax(request):
     }
     html = render(request, 'payments/_records_table.html', context).content.decode('utf-8')
     return JsonResponse({'table_html': html})
+
+from django.db.models import Sum, F, Window
+from django.db.models.functions import Lag, TruncMonth
+
+def utility_chart(request):
+    # Получаем всех плательщиков и их данные
+    payer_id = request.session.get('selected_payer_id')
+  
+    payers = Payer.objects.all()
+    
+    if payer_id:
+        payers = payers.filter(id=payer_id)  # Фильтруем только выбранного плательщика
+    
+    # payers = Payer.objects.all()
+    datasets = []
+
+    for payer in payers:
+        # Фильтруем платежи по текущему плательщику
+        payments = Payment.objects.filter(payer=payer).order_by('date')
+
+        if not payments.exists():
+            continue  # Пропускаем плательщиков без данных
+
+        # Группируем по месяцам и вычисляем разницы
+        months = []
+        electricity = []
+        gas = []
+        water = []
+
+        prev_electricity = None
+        prev_gas = None
+        prev_water = None
+
+        for payment in payments:
+            month = payment.date.strftime("%Y-%m")
+            months.append(month)
+
+            # Вычисляем разницу с предыдущим показанием
+            if prev_electricity is not None:
+                electricity.append(payment.electricity_diff)
+                gas.append(payment.gas_diff)
+                water.append(payment.water_diff)
+            else:
+                electricity.append(0)
+                gas.append(0)
+                water.append(0)
+
+            prev_electricity = payment.electricity_curr
+            prev_gas = payment.gas_curr
+            prev_water = payment.water_curr
+
+        # Добавляем данные плательщика в общий набор
+        datasets.append({
+            'payer': payer.name,
+            'months': months,
+            'electricity': electricity,
+            'gas': gas,
+            'water': water,
+        })
+
+    context = {
+        'datasets': datasets,
+    }
+    return render(request, 'payments/utility_chart.html', context)
