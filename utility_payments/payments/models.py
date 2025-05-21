@@ -33,6 +33,8 @@ class Payment(models.Model):
     def electricity_diff(self):
         prev = self.previous_payment
         if prev:
+            diff = self.electricity_curr - prev.electricity_curr
+            if diff < 0: return 0
             return self.electricity_curr - prev.electricity_curr
         return 0 # Если нет предыдущих данных
 
@@ -40,6 +42,8 @@ class Payment(models.Model):
     def gas_diff(self):
         prev = self.previous_payment
         if prev:
+            diff = self.gas_curr - prev.gas_curr
+            if diff < 0: return 0
             return self.gas_curr - prev.gas_curr
         return 0
 
@@ -47,6 +51,8 @@ class Payment(models.Model):
     def water_diff(self):
         prev = self.previous_payment
         if prev:
+            diff = self.water_curr - prev.water_curr
+            if diff < 0: return 0
             return self.water_curr - prev.water_curr
         return 0
 

@@ -3,7 +3,7 @@ import sqlite3
 from datetime import datetime
 
 # Настройки
-EXCEL_FILE = 'показания.xlsx'
+EXCEL_FILE = 'показания2.xlsx'
 SQLITE_DB = 'db.sqlite3'
 ENCODING = 'utf-8'  # или 'cp1251', если файл в Win-1251
 

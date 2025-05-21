@@ -142,7 +142,6 @@ from django.db.models.functions import Lag, TruncMonth
 def utility_chart(request):
     # Получаем всех плательщиков и их данные
     payer_id = request.session.get('selected_payer_id')
-  
     payers = Payer.objects.all()
     
     if payer_id:
