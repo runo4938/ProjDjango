@@ -49,18 +49,26 @@
                 }
             ]
         },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Потребление' }
-                },
-                x: {
-                    title: { display: true, text: 'Месяц' }
-                }
+       options: {
+        responsive: true, // Отключаем адаптивность
+        maintainAspectRatio: false, // Игнорируем соотношение сторон
+        scales: {
+            y: { 
+                beginAtZero: true,
+                title: { display: true, text: 'Потребление' }
+            },
+            x: {
+                title: { display: true, text: 'Месяц' }
             }
+        },
+        // Отключаем анимации при наведении (опционально)
+        hover: {
+            animationDuration: 0
+        },
+        animation: {
+            duration: 1
         }
+    }
         
     });
     {% endfor %}
