@@ -11,8 +11,8 @@
                 <div class="card-header bg-info text-white">
                     <h3>{{ dataset.payer }}</h3>
                 </div>
-                <div class="card-body">
-                    <canvas id="chart_{{ forloop.counter }}"></canvas>
+                <div class="card-body" style="height: 500px;">
+                    <canvas id="chart_{{ forloop.counter }}" height="500"></canvas>
                 </div>
             </div>
         {% endfor %}
