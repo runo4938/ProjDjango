@@ -25,7 +25,7 @@
                                                 </h6>
                                                 <h6 class="bi text-danger">Тариф: {{ tariffs.water }} ₽/м³ (вода)</h6>
                                                 <h6 class="bi text-danger">Тариф: {{ tariffs.gas }} ₽/м³ (газ)</h6>
-                                                <p class="card-text">Тарифы можно отредактировать</p>
+                                                <p class="card-text">Тарифы можно редактировать</p>
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                 <div class="mb-3">
                                     <input type="hidden" name="payer" value="{{ selected_payer_id }}">
                                     <select name="payer" id="payer" class="form-select"  required>
-                                        <option value="">-- Выберите плательщика --</option>
+                                        {% comment %} <option value="">-- Выберите плательщика --</option> {% endcomment %}
                                         {% for payer in payers %}
                                             <option value="{{ payer.id }}"
                                                     {% if selected_payer_id == payer.id %}selected{% endif %}>{{ payer.name }}</option>
