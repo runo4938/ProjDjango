@@ -11,11 +11,21 @@
                     <h3>{{ dataset.payer }}</h3>
                 </div>
                 <div class="card-body">
-                    <canvas id="chart_{{ forloop.counter }}"></canvas>
+                    <div class="chart-container">
+                        <canvas id="chart_{{ forloop.counter }}"></canvas>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+    <style>
+        .chart-container {
+            width: 100% !important;
+            height: 80% !important;
+            min-height: 400px;
+            position: relative;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     {% for dataset in datasets %}
@@ -44,7 +54,7 @@
                     data: {{ dataset.water|safe }},
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                    tension: 0.1
+                    tension: 0.0
                 }
             ]
         },
@@ -58,9 +68,23 @@
                 x: {
                     title: { display: true, text: 'Месяц' }
                 }
+            },
+            animation: {
+                duration: 0
+             },
+            hover: {
+                mode: null, // Отключает изменение масштаба при наведении
+                animationDuration: 0
+            },
+            plugins: {
+            legend: {
+                onHover: null // Отключает эффекты при наведении на легенду
             }
         }
+        }
+     
     });
+    
     {% endfor %}
     </script>
 {% endblock %}

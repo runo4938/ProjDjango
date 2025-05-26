@@ -64,7 +64,7 @@
                                 <div class="mb-3">
                                     <input type="hidden" name="payer" value="{{ selected_payer_id }}">
                                     <select name="payer" id="payer" class="form-select"  required>
-                                        {% comment %} <option value="">-- Выберите плательщика --</option> {% endcomment %}
+                                        <option value="">-- Выберите плательщика --</option>
                                         {% for payer in payers %}
                                             <option value="{{ payer.id }}"
                                                     {% if selected_payer_id == payer.id %}selected{% endif %}>{{ payer.name }}</option>
