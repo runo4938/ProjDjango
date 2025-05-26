@@ -15,7 +15,6 @@ def payment_view(request):
     if payer_id:
         try:
             payer_id = int(payer_id)
-           
             # Сохраняем в сессию
             request.session['selected_payer_id'] = payer_id
         except (TypeError, ValueError):
@@ -31,7 +30,7 @@ def payment_view(request):
     if not tariffs:
         tariffs = Tariff.objects.create() 
     # Получаем текущего плательщика из POST или GET
-    selected_payer_id = request.POST.get('payer') or request.GET.get('payer')
+    selected_payer_id = request.POST.get('payer') or request.GET.get('payer') or request.session.get('selected_payer_id')
     
     # Пробуем преобразовать в int, если нет — оставляем None
     if selected_payer_id:
@@ -104,6 +103,7 @@ def edit_tariffs(request):
 
 def filter_records(request):
     payer_id = request.GET.get('payer')
+    request.session['selected_payer_id'] = payer_id
     payments = Payment.objects.all().order_by('date')
     if payer_id:
         payments = payments.filter(payer_id=payer_id)
