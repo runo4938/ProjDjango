@@ -22,7 +22,7 @@ def payment_view(request):
             payer_id = None
     else:
         # Если нет в запросе и сессии - сбрасываем
-        request.session.pop('selected_payer_id', None)
+        request.session.pop('selected_payer_id', 'itsme')
     # Остальной код остается без изменений...
 
     payers = Payer.objects.all()
