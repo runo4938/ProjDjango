@@ -181,9 +181,9 @@ def utility_chart(request):
                 gas.append(0)
                 water.append(0)
 
-            prev_electricity = payment.electricity_curr
-            prev_gas = payment.gas_curr
-            prev_water = payment.water_curr
+            # prev_electricity = payment.electricity_curr
+            # prev_gas = payment.gas_curr
+            # prev_water = payment.water_curr
 
         # Добавляем данные плательщика в общий набор
         datasets.append({
