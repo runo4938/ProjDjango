@@ -103,7 +103,7 @@ def edit_tariffs(request):
 
 def filter_records(request):
     payer_id = request.GET.get('payer')
-    # request.session['selected_payer_id'] = payer_id
+    request.session['selected_payer_id'] = payer_id
     payments = Payment.objects.all().order_by('date')
     if payer_id:
         payments = payments.filter(payer_id=payer_id)
