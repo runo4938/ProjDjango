@@ -17,3 +17,4 @@ utility_payments/static
 graphics
 utility_payments/payments/tests.py
 django_animated_helper
+invoice
