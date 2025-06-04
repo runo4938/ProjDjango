@@ -1,5 +1,3 @@
-
-
 import os
 from pathlib import Path
 
@@ -15,7 +13,7 @@ SECRET_KEY = 'django-insecure-s1#7q$%zyld43&9h-umke6#6=hza*8%v5s9@a#2t#gpso&mm@*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 ALLOWED_HOSTS = ['*']
 
 
