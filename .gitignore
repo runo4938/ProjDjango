@@ -20,3 +20,6 @@ django_animated_helper
 invoice
 invoice_gpt
 static
+invoice_ds
+invoice_qwin
+
