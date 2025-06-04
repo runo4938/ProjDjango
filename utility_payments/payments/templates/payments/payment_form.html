@@ -14,7 +14,7 @@
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="payer" value="{{ selected_payer_id }}">
-                                <div class="row">
+                                <div class="row collapse show" id="collapseRow">
                                     <div class="col-md-4 mb-4 mt-3">
                                         <div class="card h-100">
                                             <div class="card-body">
@@ -58,6 +58,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button class="btn btn-primary mb-3"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapseRow"
+                                        aria-expanded="true"
+                                        aria-controls="collapseRow">Свернуть / Развернуть</button>
                                 <label for="payer" class="form-label">
                                     <h4 class="bi text-danger">Выберите плательщика</h4>
                                 </label>
