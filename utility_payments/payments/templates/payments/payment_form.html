@@ -83,53 +83,66 @@
                                             <i class="bi bi-lightning-charge text-warning"></i>
                                             Электро
                                         </h4>
-                                        <input type="number"
-                                               name="electricity_curr"
-                                               class="form-control"
-                                               placeholder="Эл. текущее"
-                                               required>
+                                        <div class="input-group">
+                                            <input type="number"
+                                                   name="electricity_curr"
+                                                   class="input-field"
+                                                   placeholder=""
+                                                   required>
+                                            <label for="myInput" class="input-label">Электро текущее</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <h4 class="text-center mb-4">
                                             <i class="bi bi-fire text-danger"></i> Газ
                                         </h4>
-                                        <input type="number"
-                                               name="gas_curr"
-                                               class="form-control"
-                                               placeholder="Газ текущее"
-                                               required>
+                                        <div class="input-group">
+                                            <input type="number"
+                                                   name="gas_curr"
+                                                   class="input-field"
+                                                   placeholder=""
+                                                   required>
+                                            <label for="myInput" class="input-label">Газ текущее</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <h4 class="text-center mb-4">
                                             <i class="bi bi-droplet text-primary"></i> Вода
                                         </h4>
-                                        <input type="number"
-                                               name="water_curr"
-                                               class="form-control"
-                                               placeholder="Вода текущее"
-                                               required>
+                                        <div class="input-group">
+                                            <input type="number"
+                                                   name="water_curr"
+                                                   class="input-field"
+                                                   placeholder=""
+                                                   required>
+                                            <label for="myInput" class="input-label">Вода текущее</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <h4 class="text-center mb-4">
                                             <i class="bi bi-wifi text-primary"></i> Интернет
                                         </h4>
-                                        <input type="number"
-                                               value="0"
-                                               step="0.01"
-                                               name="internet_cost"
-                                               class="form-control"
-                                               placeholder="Интернет">
+                                        <div class="input-group">
+                                            <input type="number"
+                                                   value="0"
+                                                   step="0.01"
+                                                   name="internet_cost"
+                                                   class="form-control"
+                                                   placeholder="Интернет">
+                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <h4 class="text-center mb-4">
                                             <i class="bi bi-trash text-primary"></i> Мусор
                                         </h4>
-                                        <input type="number"
-                                               value="0"
-                                               step="0.01"
-                                               name="trash_cost"
-                                               class="form-control"
-                                               placeholder="Мусор">
+                                        <div class="input-group">
+                                            <input type="number"
+                                                   value="0"
+                                                   step="0.01"
+                                                   name="trash_cost"
+                                                   class="form-control"
+                                                   placeholder="Мусор">
+                                        </div>
                                     </div>
                                 </div>
                                 <button type="submit" name="calculate" class="btn btn-primary btn-lg">

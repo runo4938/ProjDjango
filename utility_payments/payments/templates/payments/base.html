@@ -51,6 +51,44 @@
                 margin-bottom: 0.5rem;
                 /* Уменьшите значение по необходимости */
             }
+
+            /*disign material*/
+            .input-group {
+                position: relative;
+                margin: 20px;
+            }
+
+            .input-field {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 18px;
+                width: 200px;
+            }
+
+            .input-label {
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                color: #999;
+                font-size: 18px;
+                pointer-events: none;
+                transition: 0.2s ease all;
+                background: white;
+                padding: 0 5px;
+            }
+
+            .input-field:focus~.input-label,
+            .input-field:not(:placeholder-shown)~.input-label {
+                top: -10px;
+                font-size: 14px;
+                color: #4285f4;
+            }
+
+            .input-field:focus {
+                border-color: #4285f4;
+                outline: none;
+            }
         </style>
     </head>
     <body class="bg-light">
