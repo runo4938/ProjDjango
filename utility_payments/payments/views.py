@@ -242,5 +242,4 @@ def get_account_numbers(request):
     }
    
     current_accounts = account_numbers.get(int(payer_id), {}) if payer_id else {}
-    print(current_accounts)
     return JsonResponse(current_accounts)
