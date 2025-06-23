@@ -1,3 +1,42 @@
-<div>
-    <p>Error test</p>
-</div>
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+    </head>
+<body>
+</body>
+<script>
+$(function() {
+    // Обновление истории платежей (ваш текущий код)
+    $("#payer").on("change", function() {
+        const payerId = $(this).val();
+        
+        // 1. Обновляем таблицу истории платежей (ваш текущий AJAX)
+        $.ajax({
+            url: "{% url 'filter_records' %}",
+            type: "GET",
+            data: { payer: payerId },
+            success: function(data) {
+                $("#records-container").html(data.table_html);
+            }
+        });
+
+        // 2. Новый AJAX-запрос для обновления номеров счетов
+        if (payerId) {
+            $.ajax({
+                url: "{% url 'get_account_numbers' %}",
+                type: "GET",
+                data: { payer_id: payerId },
+                success: function(data) {
+                    // Обновляем номера счетов на странице
+                    $(".account-electricity").text("№ " + (data.electricity || "—"));
+                    $(".account-gas").text("№ " + (data.gas || "—"));
+                    $(".account-water").text("№ " + (data.water || "—"));
+                    $(".account-trash").text("№ " + (data.trash || "—"));
+                }
+            });
+        }
+    });
+});
+
+
+</script>

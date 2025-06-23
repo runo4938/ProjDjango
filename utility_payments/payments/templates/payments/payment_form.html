@@ -33,13 +33,13 @@
                                         <div class="card h-100">
                                             <div class="card-body">
                                                 <h5 class="card-title">Счета</h5>
-                                                <span>№ 12453822 Электричество</span>
+                                                <span class="account-electricity">№ {{ current_accounts.electricity }} Электричество</span>
                                                 <br>
-                                                <span>№ 126014010974 Газ</span>
+                                                <span class="account-gas">№ {{ current_accounts.gas }} Газ</span>
                                                 <br>
-                                                <span>№ 141147000000186 Вода</span>
+                                                <span class="account-water">№ {{ current_accounts.water }} Вода</span>
                                                 <br>
-                                                <span>№ 1525661 Вывоз мусора</span>
+                                               <span class="account-trash">№ {{ current_accounts.trash }} Вывоз мусора</span>
                                                 <p class="card-text">Номера счетов можно изменить в шаблоне</p>
                                             </div>
                                         </div>
@@ -50,8 +50,7 @@
                                                 <h5 class="card-title">Интернет и вывоз мусора</h5>
                                                 <h6 class="bi bi-wifi text-capitalize">Интернет: 1083 ₽</h6>
                                                 <h6 class="bi bi-trash-fill text-capitalize">
-                                                    Вывоз мусора: 753
-                                                    ₽
+                                                    Вывоз мусора: 753₽
                                                 </h6>
                                                 <p class="card-text">Плата за Интернет и за вывоз мусора суммируется в итоговой сумме</p>
                                             </div>
@@ -185,6 +184,21 @@ $(function() {
                 $("#records-container").html(data.table_html);
             }
         });
+         if (payerId) {
+            $.ajax({
+                url: "{% url 'get_account_numbers' %}",
+                type: "GET",
+                data: { payer_id: payerId },
+                success: function(data) {
+                    // Обновляем номера счетов на странице
+                    $(".account-electricity").text("№ " + (data.electricity || "—"));
+                    $(".account-gas").text("№ " + (data.gas || "—"));
+                    $(".account-water").text("№ " + (data.water || "—"));
+                    $(".account-trash").text("№ " + (data.trash || "—"));
+                }
+            });
+         }
+        
     });
 
     // Удаление записи через AJAX
@@ -205,6 +219,7 @@ $(function() {
                 $(window).scrollTop(scrollPos);  // восстанавливаем позицию
             }
         });
+    
     });
 
     if ($("#records-container").is(":empty")) {

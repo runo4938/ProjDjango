@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import payment_view, edit_tariffs, filter_records, delete_record_ajax, utility_chart  
+from .views import payment_view, edit_tariffs, filter_records, delete_record_ajax, utility_chart, get_account_numbers  
 
 urlpatterns = [
     path('', views.payment_view, name='payment_form'),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('filter-records/', views.filter_records, name='filter_records'),
     path('delete-record-ajax/', views.delete_record_ajax, name='delete_record_ajax'),
     path('utility-chart/', utility_chart, name='utility_chart'),  # Новый URL для диаграммы
+    path('get_account_numbers/', get_account_numbers, name='get_account_numbers'),
 ]

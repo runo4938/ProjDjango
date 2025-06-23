@@ -12,9 +12,27 @@ def payment_view(request):
     # Получаем payer_id из сессии или запроса
     payer_id = request.POST.get('payer') or request.GET.get('payer') or request.session.get('selected_payer_id')
     
+    account_numbers = {
+        1: {
+            'electricity': '12453822',
+            'gas': '126014010974',
+            'water': '141147000000186',
+            'trash': '1525661',
+
+        },
+        2: {
+            'electricity': '14753822',
+            'gas': '1200080529',
+            'water': '141147000000206',
+            'trash': 'Пенсионер',
+        },
+    
+    }
+    
     if payer_id:
         try:
-            payer_id = int(payer_id)
+            payer_id = int(payer_id)  
+            
             # Сохраняем в сессию
             request.session['selected_payer_id'] = payer_id
         except (TypeError, ValueError):
@@ -31,6 +49,8 @@ def payment_view(request):
         tariffs = Tariff.objects.create() 
     # Получаем текущего плательщика из POST или GET
     selected_payer_id = request.POST.get('payer') or request.GET.get('payer') or request.session.get('selected_payer_id')
+   
+   
     
     # Пробуем преобразовать в int, если нет — оставляем None
     if selected_payer_id:
@@ -68,15 +88,17 @@ def payment_view(request):
         url = reverse('payment_form') + f'?payer={payer_id}'
         return HttpResponseRedirect(url)
 
-        
+    
     current_date = now().date()  # Текущая дата без времени
-
+    current_accounts = account_numbers.get(int(selected_payer_id)) if selected_payer_id else account_numbers.get(1, {})
     context = {
         'payers': payers,
         'selected_payer_id': int(selected_payer_id) if selected_payer_id else None,  # важно: передаем в шаблон
         'payments': payments,
         'tariffs': tariffs,
         'current_date':current_date,
+        'current_accounts': current_accounts,  # Передаем номера счетов в шаблон
+       
     }
     return render(request, 'payments/payment_form.html', context,)
                                                           
@@ -198,3 +220,27 @@ def utility_chart(request):
         'datasets': datasets,
     }
     return render(request, 'payments/utility_chart.html', context)
+
+def get_account_numbers(request):
+    payer_id = request.GET.get('payer_id')
+    
+    # Словарь с номерами счетов (можно вынести в отдельный файл или БД)
+    account_numbers = {
+        1: {
+            'electricity': '12453822 Электричество',
+            'gas': '126014010974 Газ',
+            'water': '141147000000186 Вода',
+            'trash': '1525661 Мусор',
+        },
+        2: {
+            'electricity': '14753822 Электричество',
+            'gas': '1200080529 Газ',
+            'water': '141147000000206 Вода',
+            'trash': 'Пенсионер',
+        },
+    
+    }
+   
+    current_accounts = account_numbers.get(int(payer_id), {}) if payer_id else {}
+    print(current_accounts)
+    return JsonResponse(current_accounts)
