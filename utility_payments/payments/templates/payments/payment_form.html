@@ -39,7 +39,7 @@
                                                 <br>
                                                 <span class="account-water">№ {{ current_accounts.water }} Вода</span>
                                                 <br>
-                                               <span class="account-trash">№ {{ current_accounts.trash }} Вывоз мусора</span>
+                                                <span class="account-trash">№ {{ current_accounts.trash }} Вывоз мусора</span>
                                                 <p class="card-text">Номера счетов можно изменить в шаблоне</p>
                                             </div>
                                         </div>
@@ -49,9 +49,7 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">Интернет и вывоз мусора</h5>
                                                 <h6 class="bi bi-wifi text-capitalize">Интернет: 1083 ₽</h6>
-                                                <h6 class="bi bi-trash-fill text-capitalize">
-                                                    Вывоз мусора: 753₽
-                                                </h6>
+                                                <h6 class="bi bi-trash-fill text-capitalize">Вывоз мусора: 753₽</h6>
                                                 <p class="card-text">Плата за Интернет и за вывоз мусора суммируется в итоговой сумме</p>
                                             </div>
                                         </div>
@@ -62,7 +60,7 @@
                                         data-bs-toggle="collapse"
                                         data-bs-target="#collapseRow"
                                         aria-expanded="true"
-                                        aria-controls="collapseRow">Свернуть / Развернуть</button>
+                                        aria-controls="collapseRow">Свернуть/Развернуть</button>
                                 <label for="payer" class="form-label">
                                     <h4 class="bi text-danger">Выберите плательщика</h4>
                                 </label>
@@ -72,7 +70,9 @@
                                         <option value="">-- Выберите плательщика --</option>
                                         {% for payer in payers %}
                                             <option value="{{ payer.id }}"
-                                                    {% if selected_payer_id == payer.id %}selected{% endif %}>{{ payer.name }}</option>
+                                                    {% if selected_payer_id == payer.id %}selected{% endif %}>
+                                                {{ payer.name }}
+                                            </option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -144,8 +144,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" name="calculate" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-calculator me-2"></i>Рассчитать и сохранить
+                                <button type="submit" name="calculate" class="button btn-primary btn-lg">
+                                    <div class="button-outer">
+                                        <div class="button-inner">
+                                            <i class="bi bi-calculator me-2"></i>Рассчитать и сохранить
+                                        </div>
+                                    </div>
                                 </button>
                                 <a href="{% url 'edit_tariffs' %}" class="btn btn-warning btn-lg">Редактировать тарифы</a>
                                 <!-- В разделе с кнопками -->
