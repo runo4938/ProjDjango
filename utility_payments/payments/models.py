@@ -7,12 +7,17 @@ class Payer(models.Model):
     def __str__(self):
         return self.name
 
-
 class Payment(models.Model):
     payer = models.ForeignKey(Payer, on_delete=models.CASCADE, verbose_name="Плательщик")
     electricity_curr = models.PositiveIntegerField("Электричество текущее")
+    electricity_diff = models.PositiveIntegerField("Электричество разница")
+    electricity_cost = models.FloatField("Электричество сумма")
     gas_curr = models.PositiveIntegerField("Газ текущее")
+    gas_diff = models.PositiveIntegerField("Газ разница")
+    gas_cost = models.FloatField("Газ сумма")
     water_curr = models.PositiveIntegerField("Вода текущее")
+    water_diff = models.PositiveIntegerField("Вода разница")
+    water_cost = models.FloatField("Вода сумма")
     internet_cost = models.DecimalField("Интернет", max_digits=10, decimal_places=2)
     trash_cost = models.DecimalField("Вывоз мусора", max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
@@ -29,32 +34,23 @@ class Payment(models.Model):
     def previous_payment(self):
         return Payment.objects.filter(payer=self.payer, id__lt=self.id).order_by('-id').first()
 
-    @property
-    def electricity_diff(self):
-        prev = self.previous_payment
-        if prev:
-            diff = self.electricity_curr - prev.electricity_curr
-            if diff < 0: return 0
-            return self.electricity_curr - prev.electricity_curr
-        return 0 # Если нет предыдущих данных
+    def save(self, *args, **kwargs):
+        # Получаем предыдущий платеж
+        prev_payment = Payment.objects.filter(payer=self.payer).exclude(id=self.id).order_by('-date').first()     
+        # Рассчитываем разницы
+        self.electricity_diff = max(self.electricity_curr - (prev_payment.electricity_curr if prev_payment else 0), 0)
+        self.gas_diff = max(self.gas_curr - (prev_payment.gas_curr if prev_payment else 0), 0)
+        self.water_diff = max(self.water_curr - (prev_payment.water_curr if prev_payment else 0), 0)
+        
+        # Получаем текущие тарифы
+        tariff = Tariff.get_solo()
+        
+        # Рассчитываем стоимости
+        self.electricity_cost = round(self.electricity_diff * tariff.electricity, 2)
+        self.gas_cost = round(self.gas_diff * tariff.gas, 2)
+        self.water_cost = round(self.water_diff * tariff.water, 2)       
+        super().save(*args, **kwargs)
 
-    @property
-    def gas_diff(self):
-        prev = self.previous_payment
-        if prev:
-            diff = self.gas_curr - prev.gas_curr
-            if diff < 0: return 0
-            return self.gas_curr - prev.gas_curr
-        return 0
-
-    @property
-    def water_diff(self):
-        prev = self.previous_payment
-        if prev:
-            diff = self.water_curr - prev.water_curr
-            if diff < 0: return 0
-            return self.water_curr - prev.water_curr
-        return 0
 
     @property
     def total_cost(self):
@@ -66,21 +62,6 @@ class Payment(models.Model):
             float(self.trash_cost)
         )
     
-    @property
-    def electricity_cost(self):
-        tariff = Tariff.get_solo().electricity
-        return round(self.electricity_diff * tariff, 2)
-
-    @property
-    def gas_cost(self):
-        tariff = Tariff.get_solo().gas
-        return round(self.gas_diff * tariff, 2)
-
-    @property
-    def water_cost(self):
-        tariff = Tariff.get_solo().water
-        return round(self.water_diff * tariff, 2)
-
     def __str__(self):
         return f"{self.payer} - {self.date}"
     

@@ -26,7 +26,6 @@ def payment_view(request):
             'water': '141147000000206',
             'trash': 'Пенсионер',
         },
-    
     }
     
     if payer_id:
@@ -50,8 +49,6 @@ def payment_view(request):
     # Получаем текущего плательщика из POST или GET
     selected_payer_id = request.POST.get('payer') or request.GET.get('payer') or request.session.get('selected_payer_id')
    
-   
-    
     # Пробуем преобразовать в int, если нет — оставляем None
     if selected_payer_id:
         try:
@@ -74,10 +71,9 @@ def payment_view(request):
         internet_cost = float(request.POST.get('internet_cost', 0))
         trash_cost = float(request.POST.get('trash_cost', 0))
     
-
         Payment.objects.create(
             payer=payer,
-            electricity_curr=electricity_curr,
+            electricity_curr=electricity_curr,  
             gas_curr=gas_curr,
             water_curr=water_curr,
             internet_cost=internet_cost,
@@ -133,6 +129,7 @@ def filter_records(request):
         'payments': payments,
         'current_date': now().date(),
     }
+    print(payments)
     html = render(request, 'payments/_records_table.html', context).content.decode('utf-8')
     return JsonResponse({'table_html': html})
 
