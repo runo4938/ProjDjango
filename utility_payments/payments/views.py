@@ -219,8 +219,7 @@ def utility_chart(request):
     return render(request, 'payments/utility_chart.html', context)
 
 def get_account_numbers(request):
-    payer_id = request.GET.get('payer_id')
-    
+    payer_id = request.GET.get('payer_id')  
     # Словарь с номерами счетов (можно вынести в отдельный файл или БД)
     account_numbers = {
         1: {
