@@ -11,8 +11,34 @@
                     <h3>{{ dataset.payer }}</h3>
                 </div>
                 <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="chart_{{ forloop.counter }}"></canvas>
+                    <div class="row">
+                        <!-- Диаграмма электричества -->
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3 text-danger">
+                                    <i class="bi bi-lightning-charge"></i> Электричество
+                                </h5>
+                                <canvas id="chart_electricity_{{ forloop.counter }}"></canvas>
+                            </div>
+                        </div>
+                        <!-- Диаграмма газа -->
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3 text-primary">
+                                    <i class="bi bi-fire"></i> Газ
+                                </h5>
+                                <canvas id="chart_gas_{{ forloop.counter }}"></canvas>
+                            </div>
+                        </div>
+                        <!-- Диаграмма воды -->
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3 text-info">
+                                    <i class="bi bi-droplet"></i> Вода
+                                </h5>
+                                <canvas id="chart_water_{{ forloop.counter }}"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -21,70 +47,132 @@
     <style>
         .chart-container {
             width: 100% !important;
-            height: 80% !important;
-            min-height: 400px;
+            height: 300px !important;
+            min-height: 300px;
             position: relative;
+            margin-bottom: 20px;
+        }
+        .chart-container h5 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .card-body .row {
+            margin: 0;
+        }
+        .col-md-4 {
+            padding: 10px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     {% for dataset in datasets %}
-    const ctx_{{ forloop.counter }} = document.getElementById('chart_{{ forloop.counter }}').getContext('2d');
-    new Chart(ctx_{{ forloop.counter }}, {
-        type: 'line',
-        data: {
-            labels: {{ dataset.months|safe }},
-            datasets: [
-                {
+        // Диаграмма электричества
+        const ctx_electricity_{{ forloop.counter }} = document.getElementById('chart_electricity_{{ forloop.counter }}').getContext('2d');
+        new Chart(ctx_electricity_{{ forloop.counter }}, {
+            type: 'line',
+            data: {
+                labels: {{ dataset.months|safe }},
+                datasets: [{
                     label: 'Электричество (кВт·ч)',
                     data: {{ dataset.electricity|safe }},
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.1)',
-                    tension: 0.1
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'кВт·ч' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Месяц' }
+                    }
                 },
-                {
+                animation: { duration: 0 },
+                hover: { mode: null, animationDuration: 0 },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                }
+            }
+        });
+        
+        // Диаграмма газа
+        const ctx_gas_{{ forloop.counter }} = document.getElementById('chart_gas_{{ forloop.counter }}').getContext('2d');
+        new Chart(ctx_gas_{{ forloop.counter }}, {
+            type: 'line',
+            data: {
+                labels: {{ dataset.months|safe }},
+                datasets: [{
                     label: 'Газ (м³)',
                     data: {{ dataset.gas|safe }},
                     borderColor: 'rgba(54, 162, 235, 1)',
                     backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                    tension: 0.1
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'м³' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Месяц' }
+                    }
                 },
-                {
+                animation: { duration: 0 },
+                hover: { mode: null, animationDuration: 0 },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                }
+            }
+        });
+        
+        // Диаграмма воды
+        const ctx_water_{{ forloop.counter }} = document.getElementById('chart_water_{{ forloop.counter }}').getContext('2d');
+        new Chart(ctx_water_{{ forloop.counter }}, {
+            type: 'line',
+            data: {
+                labels: {{ dataset.months|safe }},
+                datasets: [{
                     label: 'Вода (м³)',
                     data: {{ dataset.water|safe }},
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                    tension: 0.1
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Потребление' }
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'м³' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Месяц' }
+                    }
                 },
-                x: {
-                    title: { display: true, text: 'Месяц' }
+                animation: { duration: 0 },
+                hover: { mode: null, animationDuration: 0 },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true }
                 }
-            },
-            animation: {
-                duration: 0
-             },
-            hover: {
-                mode: null, // Отключает изменение масштаба при наведении
-                animationDuration: 0
-            },
-            plugins: {
-            legend: {
-                onHover: null // Отключает эффекты при наведении на легенду
             }
-        }
-        }
-     
-    });
-    
+        });
     {% endfor %}
     </script>
 {% endblock %}
