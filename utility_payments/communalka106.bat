@@ -1,0 +1,1 @@
+start /min "Коммуналка" "console106.bat"
