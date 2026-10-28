@@ -1,53 +1,54 @@
-<div class="table-container">
-    <table class="table" id="records-table">
-        <table class="table table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>Дата</th>
-                    <th style="background-color:rgb(255, 99, 132); color: black;">Электро. тек</th>
-                    <th>Эл. разница</th>
-                    <th>Стоимость эл.</th>
-                    <th style="background-color:rgb(54, 162, 235); color: black;">Газ тек</th>
-                    <th>Газ разница</th>
-                    <th>Стоимость газа</th>
-                    <th style="background-color:rgb(75, 192, 192); color: black;">Вода тек</th>
-                    <th>Вода разница</th>
-                    <th>Стоимость воды</th>
-                    <th style="background-color: #7CFC00; color: black;">Интернет</th>
-                    <th style="background-color:rgb(75, 192, 192); color: white;">Мусор</th>
-                    <th style="background-color: #FFCCCC; color: black;">Итого</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if payments %}
-                    {% for p in payments %}
-                        <tr>
-                            <td>{{ p.date|date:"d.m.Y" }}</td>
-                            <td>{{ p.electricity_curr }}</td>
-                            <td class="{{ p.electricity_diff|yesno:'table-success,table-light' }}">{{ p.electricity_diff }}кВт·ч</td>
-                            <td>{{ p.electricity_cost|floatformat:2 }}₽</td>
-                            <td>{{ p.gas_curr }}</td>
-                            <td class="{{ p.gas_diff|yesno:'table-success,table-light' }}">{{ p.gas_diff }}м³</td>
-                            <td>{{ p.gas_cost|floatformat:2 }}₽</td>
-                            <td>{{ p.water_curr }}</td>
-                            <td class="{{ p.water_diff|yesno:'table-success,table-light' }}">{{ p.water_diff }}м³</td>
-                            <td>{{ p.water_cost|floatformat:2 }}₽</td>
-                            <td>{{ p.internet_cost|floatformat:2 }}₽</td>
-                            <td>{{ p.trash_cost|floatformat:2 }}₽</td>
-                            <td class="table-success">{{ p.total_cost|floatformat:2 }}₽</td>
-                            <td>
-                                {% if p.date|date:"d.m.Y" == current_date|date:"d.m.Y" %}
-                                    <button class="btn btn-danger btn-sm delete-btn" data-id="{{ p.id }}">Удалить</button>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
+<div class="table-container table-responsive-wrapper" tabindex="0" id="scrollable-table">
+    <table class="table table-striped" id="records-table" style="min-width: 1400px;">
+        <thead class="table-dark">
+            <tr>
+                <th>Дата</th>
+                <th style="background-color:rgb(255, 99, 132); color: black;">Электро. тек</th>
+                <th>Эл. разница</th>
+                <th>Стоимость эл.</th>
+                <th style="background-color:rgb(54, 162, 235); color: black;">Газ тек</th>
+                <th>Газ разница</th>
+                <th>Стоимость газа</th>
+                <th style="background-color:rgb(75, 192, 192); color: black;">Вода тек</th>
+                <th>Вода разница</th>
+                <th>Стоимость воды</th>
+                <th style="background-color: #7CFC00; color: black;">Интернет</th>
+                <th style="background-color:rgb(75, 192, 192); color: white;">Мусор</th>
+                <th style="background-color: #FFCCCC; color: black;">Итого</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if payments %}
+                {% for p in payments %}
                     <tr>
-                        <td colspan="14">Нет записей для выбранного плательщика.</td>
+                        <td>{{ p.date|date:"d.m.Y" }}</td>
+                        <td>{{ p.electricity_curr }}</td>
+                        <td class="{{ p.electricity_diff|yesno:'table-success,table-light' }}">{{ p.electricity_diff }}кВт·ч</td>
+                        <td>{{ p.electricity_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.gas_curr }}</td>
+                        <td class="{{ p.gas_diff|yesno:'table-success,table-light' }}">{{ p.gas_diff }}м³</td>
+                        <td>{{ p.gas_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.water_curr }}</td>
+                        <td class="{{ p.water_diff|yesno:'table-success,table-light' }}">{{ p.water_diff }}м³</td>
+                        <td>{{ p.water_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.internet_cost|floatformat:2 }}₽</td>
+                        <td>{{ p.trash_cost|floatformat:2 }}₽</td>
+                        <td class="table-success">{{ p.total_cost|floatformat:2 }}₽</td>
+                        <td>
+                            {% if p.date|date:"d.m.Y" == current_date|date:"d.m.Y" %}
+                                <button class="btn btn-danger btn-sm delete-btn" 
+                                        data-id="{{ p.id }}"
+                                        tabindex="0">Удалить</button>
+                            {% endif %}
+                        </td>
                     </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="14">Нет записей для выбранного плательщика.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
