@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from aiogram import Bot, Dispatcher
 from aiogram.client.session.aiohttp import AiohttpSession
 
-session = AiohttpSession(proxy="http://127.0.0.1:7890")  # замени порт на свой
+session = AiohttpSession(proxy="http://127.0.0.1:8000")  # замени порт на свой
 bot = Bot(token="9255717121:AAFWTJgx4MYW686FbeWnwf8rj26Ih-Xjw8Q", session=session)
 dp = Dispatcher()
 
